@@ -1,0 +1,34 @@
+mport numpy as np
+import pandas as pd
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Step 1: Create a sample dataset
+data = pd.DataFrame({
+    'Feature1': [2.5, 3.5, 3.0, 4.5, 5.0],
+    'Feature2': [2.4, 3.1, 3.5, 3.6, 4.4],
+    'Feature3': [3.0, 3.8, 4.0, 4.2, 5.2]
+})
+
+# Step 2: Standardize the data
+scaler = StandardScaler()
+scaled_data = scaler.fit_transform(data)
+
+# Step 3: Apply PCA
+pca = PCA(n_components=2)  # Reduce to 2 components for visualization
+pca_result = pca.fit_transform(scaled_data)
+
+# Step 4: Explained variance
+explained_variance = pca.explained_variance_ratio_
+print(f'Explained variance by each component: {explained_variance}')
+print(f'Total variance explained: {np.sum(explained_variance)}')
+
+# Step 5: Plot the PCA result (2D visualization)
+plt.figure(figsize=(8, 6))
+plt.scatter(pca_result[:, 0], pca_result[:, 1], c='blue', marker='o')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.title('PCA Result (2D)')
+plt.grid(True)
+plt.show()
